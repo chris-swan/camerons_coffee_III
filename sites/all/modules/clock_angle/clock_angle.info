@@ -1,0 +1,5 @@
+name = Clock Angle
+description = Finds the clock angle or something.
+package = Epicodus Examples
+core = 7.x
+files[] = clock_angle.module
