@@ -1,0 +1,5 @@
+name = Title Case
+description = Takes a title, returns a cased title.
+package = Epicodus Examples
+core = 7.x
+files[] = title_case.module
