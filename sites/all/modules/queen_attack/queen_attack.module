@@ -1,0 +1,84 @@
+<!-- In chess, a queen can move horizontally, vertically,
+and diagonally, making it the most powerful piece on the board.
+If another piece is within its line of sight,
+the queen can attack it. We're going to make a module which
+takes as user input two sets of coordinates representing the
+positions on a chess board of the queen and the piece that
+she is trying to take. The success page on your module should
+display whether or not the piece is within reach of the queen,
+assuming it's her turn. -->
+
+<?php
+
+function queen_attack_menu() {
+  $items = array();
+  $items['queen_attack'] = array(
+    'title' => 'Queen Attack!',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('queen_attack_form'),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['queen_attack_success_page'] = array(
+    'title' => 'Success!',
+    'page callback' => 'queen_attack_success',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+function queen_attack_form() {
+  $form['queen_coord_x'] = array(
+    '#title' => 'Queen X Coord',
+    '#type' => 'textfield',
+    '#description' => t('Enter Queen\'s X'),
+  );
+  $form['queen_coord_y'] = array(
+    '#title' => 'Queen Y Coord',
+    '#type' => 'textfield',
+    '#description' => t('Enter Queen\'s Y'),
+  );
+  $form['piece_coord_x'] = array(
+    '#title' => 'Piece X Coord',
+    '#type' => 'textfield',
+    '#description' => t('Enter Piece\'s X'),
+  );
+  $form['piece_coord_y'] = array(
+    '#title' => 'Piece Y Coord',
+    '#type' => 'textfield',
+    '#description' => t('Enter Piece\'s Y'),
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Go',
+  );
+  return $form;
+}
+
+function queen_attack_form_submit($form, &$form_state) {
+  $queen_x = $form_state['values']['queen_coord_x'];
+  $queen_y = $form_state['values']['queen_coord_y'];
+  $piece_x = $form_state['values']['piece_coord_x'];
+  $piece_y = $form_state['values']['piece_coord_y'];
+  $diff_x = $queen_x - $piece_x;
+  $diff_y = $queen_y - $piece_y;
+
+  if($diff_x == 0 || $diff_y == 0) {
+    // same horizontal or vertical
+    $_SESSION['queen_attack_output'] = '<p>The Queen is gonna rek ya!</p>';
+  } elseif($diff_x == $diff_y) {
+    // on same diagonal
+    $_SESSION['queen_attack_output'] = '<p>U been Queen\'d.</p>';
+  } else {
+    // queen cannot take piece
+    $_SESSION['queen_attack_output'] = '<p>Better luck next time, Queen!</p>';
+  }
+  $form_state['redirect'] = 'queen_attack_success_page';
+}
+
+function queen_attack_success() {
+  return $_SESSION['queen_attack_output'];
+}

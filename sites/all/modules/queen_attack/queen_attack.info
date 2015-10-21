@@ -1,0 +1,5 @@
+name = Queen Attack
+description = Lets you know if the queen can take your piece?
+package = Epicodus Examples
+core = 7.x
+files[] = queen_attack.module
