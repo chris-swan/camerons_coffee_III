@@ -2,7 +2,7 @@
 
 function state_poll_menu() {
   $items = array();
-  $items['State Poll'] = array(
+  $items['state_poll'] = array(
     'title' => 'State Poll',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('state_poll_form'),
@@ -26,6 +26,14 @@ function state_poll_form() {
     '#type' => 'textfield',
     '#description' => t('Enter your state'),
     '#element_validate' => array('element_validate_state'),
+    '#required' => TRUE,
+  );
+
+  $form['flavor'] = array(
+    '#title' => 'Flavor',
+    '#type' => 'textfield',
+    '#description' => t('Please enter your favorite flavor of ice cream'),
+    '#required' => TRUE,
   );
 
   $form['submit'] = array(
@@ -59,4 +67,16 @@ function element_validate_state($element) {
   if (!in_array($user_input, $lower_case_states)) {
     form_error($element, t('That\'s not a state we recognize.'));
   }
+}
+
+function state_poll_form_submit($form, &$form_state) {
+  $state = $form_state['values']['state'];
+  $flavor = $form_state['values']['flavor'];
+
+  $_SESSION['poll_result'] = '<p>You chose ' . $flavor . ' and are from ' . $state . '.</p>';
+  $form_state['redirect'] = 'state_poll_success_page';
+}
+
+function state_poll_success() {
+  return $_SESSION['poll_result'];
 }
