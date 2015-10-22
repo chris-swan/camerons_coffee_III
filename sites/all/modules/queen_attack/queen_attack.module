@@ -1,13 +1,3 @@
-<!-- In chess, a queen can move horizontally, vertically,
-and diagonally, making it the most powerful piece on the board.
-If another piece is within its line of sight,
-the queen can attack it. We're going to make a module which
-takes as user input two sets of coordinates representing the
-positions on a chess board of the queen and the piece that
-she is trying to take. The success page on your module should
-display whether or not the piece is within reach of the queen,
-assuming it's her turn. -->
-
 <?php
 
 function queen_attack_menu() {
