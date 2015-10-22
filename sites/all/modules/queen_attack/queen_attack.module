@@ -25,27 +25,37 @@ function queen_attack_form() {
     '#title' => 'Queen X Coord',
     '#type' => 'textfield',
     '#description' => t('Enter Queen\'s X'),
+    '#element_validate' => array('element_validate_number', 'element_validate_chess_range'),
   );
   $form['queen_coord_y'] = array(
     '#title' => 'Queen Y Coord',
     '#type' => 'textfield',
     '#description' => t('Enter Queen\'s Y'),
+    '#element_validate' => array('element_validate_number', 'element_validate_chess_range'),
   );
   $form['piece_coord_x'] = array(
     '#title' => 'Piece X Coord',
     '#type' => 'textfield',
     '#description' => t('Enter Piece\'s X'),
+    '#element_validate' => array('element_validate_number', 'element_validate_chess_range'),
   );
   $form['piece_coord_y'] = array(
     '#title' => 'Piece Y Coord',
     '#type' => 'textfield',
     '#description' => t('Enter Piece\'s Y'),
+    '#element_validate' => array('element_validate_number', 'element_validate_chess_range'),
   );
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => 'Go',
   );
   return $form;
+}
+
+function element_validate_chess_range($element) {
+  if ($element['#value'] < 1 || $element['#value'] > 8) {
+    form_error($element, t('Namber must be 1-8'));
+  }
 }
 
 function queen_attack_form_submit($form, &$form_state) {
