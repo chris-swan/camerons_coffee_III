@@ -1,0 +1,73 @@
+<?php
+
+function rock_paper_scissors_menu() {
+  $items['rock_paper_scissors'] = array(
+    'title' => 'Rock Paper Scissors',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('rock_paper_scissors_form'),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['rock_paper_scissors_player_two_page'] = array(
+    'title' => 'Player Two\'s selection',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('rock_paper_scissors_player_two_form'),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['rock_paper_scissors_success_page'] = array(
+    'title' => 'Success',
+    'page callback' => 'rock_paper_scissors_success',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+function rock_paper_scissors_form() {
+  $form['player_one'] = array(
+    '#title' => 'Player one',
+    '#type' => 'textfield',
+    '#description' => 'Player one',
+    '#required' => TRUE,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Go',
+  );
+
+  return $form;
+}
+
+function rock_paper_scissors_form_submit($form, &$form_state) {
+  $_SESSION['player_one'] = $form_state['values']['player_one'];
+  $form_state['redirect'] = 'rock_paper_scissors_player_two_page';
+}
+
+function rock_paper_scissors_player_two_form() {
+  $form['player_two'] = array(
+    '#title' => 'Player two',
+    '#type' => 'textfield',
+    '#description' => 'Player two',
+    '#required' => TRUE,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Go',
+  );
+
+  return $form;
+}
+
+function rock_paper_scissors_player_two_form_submit($form, &$form_state) {
+  $_SESSION['player_two'] = $form_state['values']['player_two'];
+  $form_state['redirect'] = 'rock_paper_scissors_success_page';
+}
+
+function rock_paper_scissors_success() {
+  return '<p>' . $_SESSION['player_one'] . ' and ' . $_SESSION['player_two'] . '</p>';
+}
