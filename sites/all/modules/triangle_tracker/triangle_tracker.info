@@ -1,0 +1,5 @@
+name = triangle tracker
+description = a module that allows users to enter in 3 sides,
+package = Epicodus Examples
+core = 7.x
+files[] = triangle_tracker.module
