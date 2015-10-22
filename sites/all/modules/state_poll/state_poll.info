@@ -1,0 +1,5 @@
+name = state poll
+description = a module that polls what state a person is from
+package = Epicodus Examples
+core = 7.x
+files[] = state_poll.module
