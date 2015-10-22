@@ -31,6 +31,7 @@ function rock_paper_scissors_form() {
     '#title' => 'Player one',
     '#type' => 'textfield',
     '#description' => 'Player one',
+    '#element_validate' => array('element_validate_rps'),
     '#required' => TRUE,
   );
 
@@ -43,7 +44,7 @@ function rock_paper_scissors_form() {
 }
 
 function rock_paper_scissors_form_submit($form, &$form_state) {
-  $_SESSION['player_one'] = $form_state['values']['player_one'];
+  $_SESSION['player_one'] = strtolower($form_state['values']['player_one']);
   $form_state['redirect'] = 'rock_paper_scissors_player_two_page';
 }
 
@@ -52,6 +53,7 @@ function rock_paper_scissors_player_two_form() {
     '#title' => 'Player two',
     '#type' => 'textfield',
     '#description' => 'Player two',
+    '#element_validate' => array('element_validate_rps'),
     '#required' => TRUE,
   );
 
@@ -64,7 +66,7 @@ function rock_paper_scissors_player_two_form() {
 }
 
 function rock_paper_scissors_player_two_form_submit($form, &$form_state) {
-  $_SESSION['player_two'] = $form_state['values']['player_two'];
+  $_SESSION['player_two'] = strtolower($form_state['values']['player_two']);
   $form_state['redirect'] = 'rock_paper_scissors_success_page';
 }
 
@@ -91,4 +93,12 @@ function rock_paper_scissors_success() {
   );
 
   return '<p>' . $outcome[$one][$two] . '</p>';
+}
+
+function element_validate_rps($element) {
+  $valid_entries = ['rock', 'paper', 'scissors'];
+  $user_input = strtolower($element['#value']);
+  if (!in_array($user_input, $valid_entries)) {
+    form_error($element, t('That\'s not a valid entry. Please enter rock, paper, or scissors.'));
+  }
 }
