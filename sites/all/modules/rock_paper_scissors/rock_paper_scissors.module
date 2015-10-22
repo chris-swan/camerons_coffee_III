@@ -69,5 +69,26 @@ function rock_paper_scissors_player_two_form_submit($form, &$form_state) {
 }
 
 function rock_paper_scissors_success() {
-  return '<p>' . $_SESSION['player_one'] . ' and ' . $_SESSION['player_two'] . '</p>';
+  $one = $_SESSION['player_one'];
+  $two = $_SESSION['player_two'];
+
+  $outcome = array(
+    'rock' => array(
+      'rock' => 'It\'s a tie!',
+      'paper' => 'Player two wins!',
+      'scissors' => 'Player one wins!',
+    ),
+    'paper' => array(
+      'rock' => 'Player one wins!',
+      'paper' => 'It\'s a tie!',
+      'scissors' => 'Player two wins!',
+    ),
+    'scissors' => array(
+      'rock' => 'Player two wins!',
+      'paper' => 'Player one wins!',
+      'scissors' => 'It\'s a tie!',
+    ),
+  );
+
+  return '<p>' . $outcome[$one][$two] . '</p>';
 }
