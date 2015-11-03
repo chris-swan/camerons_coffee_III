@@ -1,0 +1,27 @@
+<?php
+
+class ClockAngleTestCase extends DrupalUnitTestCase
+{
+  public static function getInfo()
+  {
+    return array(
+      'name' => 'Clock Angle Tests',
+      'description' => 'Test that clock angle measurement works',
+      'group' => 'Epicodus Examples Tests',
+
+    );
+  }
+
+  function testClockAngleTest()
+  {
+    $description = '6 oclock is 180';
+
+    $hours = 6;
+    $minutes = 0;
+
+    $result = clock_form_submit($hours, $minutes);
+
+    $expected_output = 180;
+    $this->assertEqual($result, $expected_output, $description);
+  }
+}

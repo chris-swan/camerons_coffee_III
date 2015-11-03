@@ -3,53 +3,61 @@
 function clock_angle_menu() {
   $items = array();
   $items['clock_angle'] = array(
-    'title' => 'Clock Angle',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('clock_angle_form'),
-    'access callback' => TRUE,
+    'title' => 'Calculate Angle',
     'type' => MENU_NORMAL_ITEM,
-  );
-
-  $items['clock_angle_success_page'] = array(
-    'title' => 'Success!',
-    'page callback' => 'clock_angle_success',
     'access callback' => TRUE,
-    'type' => MENU_CALLBACK,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('clock_form'),
   );
-
+  $items['calculated_angle'] = array(
+    'title' => 'Success',
+    'type' => MENU_CALLBACK,
+    'access callback' => TRUE,
+    'page callback' => 'angle_success',
+  );
   return $items;
 }
 
-function clock_angle_form() {
-  $form['time'] = array(
-    '#title' => 'Time',
+function clock_form() {
+  $form = array();
+  $form['hour_hand'] = array(
+    '#title' => 'Hour',
     '#type' => 'textfield',
-    '#description' => t('Enter the time. (Example: 12:00)'),
+    '#description' => t('Enter the hour'),
+  );
+
+  $form['minute_hand'] = array(
+    '#title' => 'Minutes',
+    '#type' => 'textfield',
+    '#description' => t('Enter the minutes'),
   );
 
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => 'Go',
+    '#value' => 'Calculate Angle',
   );
   return $form;
 }
-
-function clock_angle_form_submit($form, &$form_state) {
-  $time = explode(':', $form_state['values']['time']);
-  $hours = intval($time[0]);
-  $minutes = intval($time[1]);
-  $hours_deg = ((60 * $hours) + $minutes) / 2;
-  // $hours_deg = ($hour * 30) + (($minutes/60) * 30);
-  $minutes_deg = 6 * $minutes;
-  $clock_angle = abs($hours_deg - $minutes_deg);
-  if($clock_angle > 180) {
-    $_SESSION['clock_angle_output'] = (360 - $clock_angle);
-  } else {
-    $_SESSION['clock_angle_output'] = $clock_angle;
+//In the function below, we calculate the absolute position by multiplying the time by the
+//absolute positioning degree it takes to get to that spot on the clock(6 degrees per minute hand),
+//then run it through an equation to get the angle. HR hand moves 30 degrees per hour
+function clock_form_submit($form, &$form_state) {
+  $hour_hand = $form_state['values']['hour_hand'];
+  $minute_hand = $form_state['values']['minute_hand'];
+  if ($hour_hand == 12) {
+    $hour_hand = 0;
   }
-  $form_state['redirect'] = 'clock_angle_success_page';
+  $hour_angle = ($hour_hand * 30) + (.5 * $minute_hand);
+  $minute_angle = ($minute_hand * 6);
+  $answer = abs($hour_angle - $minute_angle);
+  if($answer > 180 ) {
+    $answer = 360 - $answer;
+  }
+  $_SESSION['angle_output'] = $answer;
+  $form_state['redirect'] = 'calculated_angle';
 }
 
-function clock_angle_success() {
-  return '<p>' . $_SESSION['clock_angle_output'] . '</p>';
+function angle_success() {
+  $output = $_SESSION['angle_output'];
+  return "Your angle is $output degrees";
 }
