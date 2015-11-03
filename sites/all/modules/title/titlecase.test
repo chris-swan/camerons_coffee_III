@@ -11,7 +11,7 @@ class TitleCaseTestCase extends DrupalUnitTestCase
         );
     }
 
-    function testTitleCase()
+    function testTitleCaseTest()
     {
 
         //English description
