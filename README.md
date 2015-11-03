@@ -2,7 +2,7 @@
 
 ##### A Drupal site for a coffee shop.
 
-#### By Phillip Shannon, Ike Mattice, and Sam Maturen
+#### By Chris Swan, Jason Bethel, Ben Casalino
 
 ## Description
 A Drupal site for a bookstore.
@@ -33,7 +33,7 @@ Drupal
 
 ### Legal
 
-Copyright (c) 2015 **Phillip Shannon, Ike Mattice, and Sam Maturen**
+Copyright (c) 2015 **Chris Swan and Jason Bethel - Testing added by Chris Swan and Ben Casalino**
 
 This software is licensed under the MIT license.
 
