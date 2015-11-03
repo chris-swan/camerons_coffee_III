@@ -16,10 +16,10 @@ class ClockAngleTestCase extends DrupalUnitTestCase
   {
     $description = '6 oclock is 180';
 
-    $hours = 6;
-    $minutes = 0;
+    $hour_hand = 6;
+    $minute_hand = 0;
 
-    $result = clock_form_submit($hours, $minutes);
+    $result = get_angle($hour_hand, $minute_hand);
 
     $expected_output = 180;
     $this->assertEqual($result, $expected_output, $description);
